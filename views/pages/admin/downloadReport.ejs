@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials_admin/head'); %>
+    <title>ALI Library - Borrow</title>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <%- include('partials_admin/sidebar'); %>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+              <%- include('partials_admin/topbar'); %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                  <h6>Please click the button below to download the transaction report</h6>
+                  <a href="<%= path %>" class="btn btn-primary" download><i class="fa-solid fa-download"></i> Download</a>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <%- include('partials_admin/footer'); %>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <%- include('partials_admin/logout'); %>
+
+    <!-- =====================================Modal Show User================================ -->
+    <div class="modal fade" id="showUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Data User</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="detailBorrow">
+                <div class="mb-3">
+                  <label for="recipient-id" class="col-form-label">ID Pegawai:</label>
+                  <input type="text" readonly class="form-control" id="recipient-id">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient1-nama" class="col-form-label">Nama:</label>
+                  <input type="text" readonly class="form-control" id="recipient1-nama">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient2-jabatan" class="col-form-label">Jabatan:</label>
+                  <input type="text" readonly class="form-control" id="recipient2-jabatan">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient3-noHp" class="col-form-label">No HP:</label>
+                  <input type="text" readonly class="form-control" id="recipient3-noHp">
+                  <!-- <input type="text" readonly class="form-control" id="recipient2-title"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient4-email" class="col-form-label">Email:</label>
+                  <input type="text" readonly class="form-control" id="recipient4-email">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient5-statusUsers" class="col-form-label">Status User:</label>
+                  <input type="text" readonly class="form-control" id="recipient5-statusUsers">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- =====================================Modal Show Item====================================== -->
+      <div class="modal fade" id="showItem" tabindex="-1" aria-labelledby="itemLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="itemLabel">Data Item</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="detailBorrow">
+                <div class="mb-3">
+                  <label for="recipient-id" class="col-form-label">ID Item:</label>
+                  <input type="text" readonly class="form-control" id="recipient-id">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient1-category" class="col-form-label">Category:</label>
+                  <input type="text" readonly class="form-control" id="recipient1-category">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient2-title" class="col-form-label">Title:</label>
+                  <input type="text" readonly class="form-control" id="recipient2-title">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient3-quantity" class="col-form-label">Quantity:</label>
+                  <input type="text" readonly class="form-control" id="recipient3-quantity">
+                </div>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <%- include('partials_admin/script'); %>
+    
+</body>
+
+</html>

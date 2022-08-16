@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('partials_admin/head'); %>
+    <title>ALI Library - Publisher</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+  </head>
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+      <%- include('partials_admin/sidebar'); %>
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+          <!-- Main Content -->
+          <div id="content">
+
+            <%- include('partials_admin/topbar'); %>
+
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+
+                  <!-- Page Heading -->
+                  <h1 class="h3 mb-2 text-gray-800">Tabel Publiher</h1>
+                  <p class="mb-4">Daftar publisher yang tersedia diperpustakaan</p>
+
+                  <!-- DataTales Example -->
+                  <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Data Publiher</h6>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                            <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#addPublisher">
+                              <i class="fa-solid fa-plus"></i> Add Publiher
+                            </button>
+                              <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                  <tr>
+                                      <th>Publisher ID</th>
+                                      <th>Publisher Name</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                    <th>Publisher ID</th>
+                                    <th>Publisher Name</th>
+                                    <th>Action</th>
+                                  </tr>
+                              </tfoot>
+                              <tbody>
+                                  <% publisher.forEach((i,index)=> { %>
+                                      <tr>
+                                        <td><%= i.id %></td>
+                                        <td><%= i.publisher %></td>
+                                        <td><button class="btn btn-danger btn-sm" onclick="deletePublisher('<%= i.id %>')">Delete</button></td>
+                                      </tr>
+                                  <% }) %>
+                              </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+              <!-- /.container-fluid -->
+
+          </div>
+          <!-- End of Main Content -->
+
+          <%- include('partials_admin/footer'); %>
+          
+
+      </div>
+      <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+  
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+  </a>
+
+  <%- include('partials_admin/logout'); %>
+
+    <!-- ================================modal tambah item======================== -->
+    <div class="modal fade" id="addPublisher" aria-labelledby="addPublisherLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="drop">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addPublisherLabel">Add Publisher</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- <form action="" enctype="multipart/form-data" method="post"> -->
+              <!-- <div class="mb-3">
+                <label for="categoryID" class="col-form-label">Publisher ID:</label>
+                <input type="text" class="form-control" id="categoryID" name="categoryID">
+              </div> -->
+              <div class="mb-3">
+                <label for="publisherName" class="col-form-label">Publisher Name:</label>
+                <input type="text" class="form-control" id="publisherName" name="publisherName">
+              </div>
+              
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" onclick="addPublisher()">Submit</button>
+              </div>
+            <!-- </form> -->
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+ 
+    <%- include('partials_admin/script'); %>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+    <!-- script -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $('#dataTable').DataTable();
+      });
+
+      
+      function deletePublisher(id) {
+        $.ajax({
+            url: `http://localhost:8001/api/delete_publisher/${id}`,
+            type: 'DELETE',
+            success: function (result) {
+              location.reload();
+            }
+        });
+      }
+
+
+      async function addPublisher() {
+        // let categoryID = $("#categoryID").val();
+        let publisherName = $("#publisherName").val();
+        await fetch("http://localhost:8001/api/add_publisher", {
+            method: 'post',
+            body: `publisher=${publisherName}`,
+            headers: 
+            {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(async (response) => {
+            if (response.status === 400) {
+              alert("Publisher Tidak Boleh Kosong!")
+            }
+            if (response.status != 400) {
+              location.reload();
+            }
+            return response.json()
+        }).then((res) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+      }
+      
+
+    </script>
+  </body>
+</html>

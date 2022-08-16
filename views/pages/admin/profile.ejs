@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials_admin/head') %> 
+    <title>April Library - Profile</title>
+</head>
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <%- include('partials_admin/sidebar'); %>
+  
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+  
+            <!-- Main Content -->
+            <div id="content">
+  
+              <%- include('partials_admin/topbar'); %>
+  
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+  
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Profile</h1>
+                    <p class="mb-4">Profile Admin</p>
+                    <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#editProfile">
+                        <i class="fa-solid fa-user-pen"></i> Edit Profile
+                    </button>
+                    <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#editPassword">
+                      <i class="fa-solid fa-lock"></i> Ubah Password
+                    </button>
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Profile Pengguna Admin</h6>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                  <label for="id_pegawai" class="col-form-label">ID Pegawai:</label>
+                                  <input type="text" readonly class="form-control" id="id_pegawai" value="<%= users.id_pegawai %>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="nama" class="col-form-label">Nama:</label>
+                                  <input type="text" readonly class="form-control" id="nama" value="<%= users.nama %>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="jabatan" class="col-form-label">Jabatan:</label>
+                                  <input type="text" readonly class="form-control" id="jabatan" value="<%= users.jabatan %>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="phone" class="col-form-label">Phone:</label>
+                                  <input type="text" readonly class="form-control" id="phone" value="<%= users.no_hp %>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="email" class="col-form-label">Email:</label>
+                                  <input type="text" readonly class="form-control" id="email" value="<%= users.email %>">
+                                </div> 
+                              </form>
+                        </div>
+                    </div>
+  
+                </div>
+                <!-- /.container-fluid -->
+  
+            </div>
+            <!-- End of Main Content -->
+  
+            <%- include('partials_admin/footer'); %>
+  
+        </div>
+        <!-- End of Content Wrapper -->
+  
+    </div>
+    <!-- End of Page Wrapper -->
+    
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- ================================modal edit profile======================== -->
+    <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="index"></div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                      <label for="id_pegawaiModal" class="col-form-label">ID Pegawai:</label>
+                      <input type="text" class="form-control" id="id_pegawaiModal" value="<%= users.id_pegawai %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="namaModal" class="col-form-label">Nama:</label>
+                      <input type="text" class="form-control" id="namaModal" value="<%= users.nama %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="jabatanModal" class="col-form-label">Jabatan:</label>
+                      <input type="text" class="form-control" id="jabatanModal" value="<%= users.jabatan %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="phoneModal" class="col-form-label">Phone:</label>
+                      <input type="text" class="form-control" id="phoneModal" value="<%= users.no_hp %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="emailModal" class="col-form-label">Email:</label>
+                      <input type="text" class="form-control" id="emailModal" value="<%= users.email %>">
+                    </div> 
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="editProfile(<%= users.id %>)">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================modal edit password======================== -->
+    <div class="modal fade" id="editPassword" tabindex="-1" aria-labelledby="editPasswordLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editPasswordLabel">Edit Password</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div id="index"></div>
+          <div class="modal-body">
+              <form>
+                  <div class="mb-3">
+                    <label for="oldPass" class="col-form-label">Old Password:</label>
+                    <input type="password" class="form-control" id="oldPass">
+                  </div>
+                  <div class="mb-3">
+                    <label for="newPass" class="col-form-label">New Password:</label>
+                    <input type="password" class="form-control" id="newPass">
+                  </div>
+                  <div class="mb-3">
+                    <label for="reNewPass" class="col-form-label">Re-New Password:</label>
+                    <input type="password" class="form-control" id="reNewPass">
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick='editPassword(<%= users.id %>, "<%= users.password %>", "<%= users.id_pegawai %>")'>Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <%- include('partials_admin/logout'); %>
+
+    <%- include('partials_admin/script'); %>
+
+    <script type="text/javascript">
+        
+        async function editProfile(id) {
+        let id_pegawai = $("#id_pegawaiModal").val();
+        let nama = $("#namaModal").val();
+        let jabatan = $("#jabatanModal").val();
+        let phone = $("#phoneModal").val();
+        let email = $("#emailModal").val();
+        await fetch(`http://localhost:8001/api/update_profile/${id}`, {
+            method: 'put',
+            body: `id_pegawai=${id_pegawai}&nama=${nama}&jabatan=${jabatan}&no_hp=${phone}&email=${email}`,
+            headers: 
+            {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(async (response) => {
+            if (response.status === 400) {
+              alert("Id Item Tidak Boleh Kosong!")
+            }
+            if (response.status != 400) {
+              location.reload();
+            }
+            return response.json()
+        }).then((res) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+      }
+
+      async function editPassword(id, pass, idP) {
+        console.log(pass);
+        console.log(idP);
+        let id_pegawai = idP;
+        let oldPass = $("#oldPass").val();
+        let reNewPass = $("#reNewPass").val();
+        let newPass = $("#newPass").val();
+        // if (oldPass == pass) {
+          
+        // }
+        if (newPass == reNewPass) {
+          await fetch(`http://localhost:8001/api/update_users/${id}`, {
+            method: 'put',
+            body: `id_pegawai=${id_pegawai}&password=${newPass}`,
+            headers: 
+            {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+            }).then(async (response) => {
+                if (response.status === 400) {
+                  alert("Id Item Tidak Boleh Kosong!")
+                }
+                if (response.status != 400) {
+                  location.reload();
+                }
+                return response.json()
+            }).then((res) => {
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }else{
+          alert("Password Tidak Sama")
+        }
+        
+        
+      }
+
+    </script>
+</body>
+</html>

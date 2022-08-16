@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('partials_admin/head'); %>
+    <title>ALI Library - Item</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  </head>
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+      <%- include('partials_admin/sidebar'); %>
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+          <!-- Main Content -->
+          <div id="content">
+
+            <%- include('partials_admin/topbar'); %>
+
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+
+                  <!-- Page Heading -->
+                  <h1 class="h3 mb-2 text-gray-800">Tabel Item</h1>
+                  <p class="mb-4">Daftar item / buku yang tersedia diperpustakaan</p>
+
+                  <!-- DataTales Example -->
+                  <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Data Item</h6>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                            <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#tambahItem">
+                              <i class="fa-solid fa-plus"></i> Tambah Items
+                            </button>
+                              <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                  <tr>
+                                      <th>ID Item</th>
+                                      <th>Image</th>
+                                      <th>Location</th>
+                                      <th>Type</th>
+                                      <th>Category</th>
+                                      <th>Title</th>
+                                      <th>Author</th>
+                                      <th>Publisher</th>
+                                      <th>Sinopsis</th>
+                                      <th>Pages</th>
+                                      <th>Language</th>
+                                      <th>Quantity</th>
+                                      <th>Available Quantity</th>
+                                      <th>Entry Date</th>
+                                      <th>Status</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                      <th>ID Item</th>
+                                      <th>Image</th>
+                                      <th>Location</th>
+                                      <th>Type</th>
+                                      <th>Category</th>
+                                      <th>Title</th>
+                                      <th>Author</th>
+                                      <th>Publisher</th>
+                                      <th>Sinopsis</th>
+                                      <th>Pages</th>
+                                      <th>Language</th>
+                                      <th>Quantity</th>
+                                      <th>Available Quantity</th>
+                                      <th>Entry Date</th>
+                                      <th>Status</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </tfoot>
+                              <tbody>
+                                  <% items.forEach((i,index)=> { %>
+                                      <tr>
+                                      <td><%= i.id_item%></td>
+                                      <td>
+                                        <div>
+                                          <button class="btn btn-dark btn-sm position-absolute" data-bs-toggle="modal" data-bs-target="#editImage" data-bs-id="<%= i.id %>" data-bs-id_item="<%= i.id_item %>"><i class="fa-solid fa-image"></i>Edit</button>
+                                          <img id="imgItem" src="<%= i.image%>" alt=""  style="height: 100px; width: 100px; object-fit: contain;">
+                                        </div>
+                                      </td>
+                                      <td><%= i.location%></td>
+                                      <td><%= i.type%></td>
+                                      <td><%= i.category%></td>
+                                      <td><%= i.title%></td>
+                                      <td><%= i.author%></td>
+                                      <td><%= i.publisher%></td>
+                                      <td><textarea readonly name="" id="" cols="30" rows="3"><%= i.sinopsis%></textarea></td>
+                                      <td><%= i.pages%></td>
+                                      <td><%= i.language%></td>
+                                      <td><%= i.quantity%></td>
+                                      <td><%= i.available_quantity%></td>
+                                      <% if (i.available_quantity <= 0) { %>
+                                          <% i.items_status = "notavailable" %> 
+                                      <% } %>
+                                      <td>
+                                        <%= i.entry_date.getDate()%>/<%= i.entry_date.getMonth()+1%>/<%= i.entry_date.getFullYear()%>
+                                      </td>
+                                      <% if (i.items_status == "available") { %>
+                                          <td><span class="badge text-bg-success"><%= i.items_status%></span></td>
+                                      <% } else if(i.items_status == "notavailable"){%>
+                                          <td><span class="badge text-bg-danger"><%= i.items_status%></span></td>
+                                          <% } %>
+                                      <td>
+                                          <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editItem" 
+                                              data-bs-i="<%= i.id %>" 
+                                              data-bs-id="<%= i.id_item %>" 
+                                              data-bs-image="<%= i.image %>"
+                                              data-bs-location="<%= i.location %>"
+                                              data-bs-type="<%= i.type %>"
+                                              data-bs-category="<%= i.category %>" 
+                                              data-bs-title="<%= i.title %>" 
+                                              data-bs-author="<%= i.author %>"
+                                              data-bs-publisher="<%= i.publisher %>"
+                                              data-bs-sinopsis="<%= i.sinopsis %>"
+                                              data-bs-pages="<%= i.pages %>"
+                                              data-bs-language="<%= i.language %>"
+                                              data-bs-quantity="<%= i.quantity %>" 
+                                              data-bs-availableQuantity="<%= i.available_quantity %>"
+                                              data-bs-entryDate="<%= i.entry_date %>"
+                                              data-bs-status="<%= i.items_status %>">Edit</button>
+                                              <button type="button" class="btn btn-danger" onclick="deleteItem(<%=i.id%>)">Delete</button>
+                                          </div>
+                                          
+                                      </td>
+                                      </tr>
+                                  <% }) %>
+                              </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+              <!-- /.container-fluid -->
+
+          </div>
+          <!-- End of Main Content -->
+
+          <%- include('partials_admin/footer'); %>
+          
+
+      </div>
+      <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+  
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+  </a>
+
+  <%- include('partials_admin/logout'); %>
+
+    <!-- ================================modal tambah item======================== -->
+    <div class="modal fade" id="tambahItem" aria-labelledby="tambahItemLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="drop">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tambahItemLabel">Add Item</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/api/newItem" enctype="multipart/form-data" method="post">
+              <div class="mb-3">
+                <label for="id_item" class="col-form-label">ID Item:</label>
+                <input type="text" class="form-control" id="id_item" name="id_item">
+              </div>
+              <div class="mb-3">
+                <label for="image" class="col-form-label">Image:</label>
+                <input type="file" class="form-control" id="formFile" name="image" onchange="preview()">
+              </div>
+              <img id="frame" src="" class="img-fluid" />
+              <div class="mb-3">
+                <label for="location" class="col-form-label">Location:</label>
+                <div class="form-group">
+                  <select name="location" id="location" class="form-control">
+                      <option value=""></option>
+                      <% shelf.forEach(i => { %>
+                        <option value="<%= i.shelfName %>"><%= i.shelfName %></option>
+                      <% }) %>
+                  </select>
+                </div>
+                <!-- <input type="text" class="form-control" id="location" name="location"> -->
+              </div>
+              <div class="mb-3">
+                <label for="type" class="col-form-label">Type:</label>
+                <select class="form-select" id="type" name="type" aria-label="Default select example">
+                  <option selected value="books">Book</option>
+                  <option value="document">Document</option>
+                  <option value="cd">CD</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="col-form-label">Category:</label>
+                <div class="form-group">
+                  <select name="category" id="category" class="form-control">
+                      <option value=""></option>
+                      <% category.forEach(i => { %>
+                        <option value="<%= i.categoryName %>"><%= i.categoryName %></option>
+                      <% }) %>
+                  </select>
+                </div>
+                <!-- <input type="text" class="form-control" id="category" name="category"> -->
+              </div>
+              <div class="mb-3">
+                <label for="title" class="col-form-label">Title:</label>
+                <textarea class="form-control" id="title" name="title"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="author" class="col-form-label">Author:</label>
+                <div class="form-group">
+                  <select name="author" id="author" class="form-control">
+                      <option value=""></option>
+                      <% author.forEach(i => { %>
+                        <option value="<%= i.author %>"><%= i.author %></option>
+                      <% }) %>
+                  </select>
+                </div>
+                <!-- <input type="text" class="form-control" id="author" name="author"> -->
+              </div>
+              <div class="mb-3">
+                <label for="publisher" class="col-form-label">Publisher:</label>
+                <div class="form-group">
+                  <select name="publisher" id="publisher" class="form-control">
+                    <option value=""></option>
+                    <% publisher.forEach(i => { %>
+                      <option value="<%= i.publisher %>"><%= i.publisher %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <!-- <input type="text" class="form-control" id="publisher" name="publisher"> -->
+              </div>
+              <div class="mb-3">
+                <label for="sinopsis" class="col-form-label">Sinopsis:</label>
+                <textarea class="form-control" id="sinopsis" name="sinopsis"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="pages" class="col-form-label">Pages:</label>
+                <input type="text" class="form-control" id="pages" name="pages">
+              </div>
+              <div class="mb-3">
+                <label for="language" class="col-form-label">Language:</label>
+                <!-- <input type="text" class="form-control" id="language" name="language"> -->
+                <select class="form-select" id="language" name="language" aria-label="Default select example">
+                  <option selected value="bahasa">Bahasa</option>
+                  <option value="english">English</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="quantity" class="col-form-label">Quantity:</label>
+                <input type="text" class="form-control" id="quantity" name="quantity">
+              </div>
+              <!-- <div class="mb-3">
+                <label for="available_quantity" class="col-form-label">Available Quantity:</label>
+                <input type="text" class="form-control" id="availableQuantity" name="available_quantity">
+              </div> -->
+              <div class="mb-3">
+                <label for="entry_date" class="col-form-label">Entry Date:</label>
+                <input type="date" class="form-control" id="entry_date" name="entry_date">
+              </div>
+              <div class="mb-3">
+                <label for="items_status" class="col-form-label">Status:</label><br>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="items_status" id="available" value="available">
+                    <label class="form-check-label" for="available">
+                      Available
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="items_status" id="notavailable" value="notavailable">
+                    <label class="form-check-label" for="notavailable">
+                      Not Available
+                    </label>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Tambah</button>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================modal edit item======================== -->
+    <div class="modal fade" id="editItem" aria-labelledby="editItemLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content" id="drop-edit">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editItemLabel">Edit Item</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="index"></div>
+            <div class="modal-body">
+              <form id="detailBorrow">
+                <div class="mb-3">
+                  <label for="recipient-id" class="col-form-label">ID Item:</label>
+                  <input type="text" class="form-control" id="recipient-id">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-location" class="col-form-label">Location:</label>
+                  <div class="form-group">
+                    <select name="recipient-location" id="recipient-location" class="form-control">
+                        <!-- <option value=""></option> -->
+                        <% shelf.forEach(i => { %>
+                          <option value="<%= i.shelfName %>"><%= i.shelfName %></option>
+                        <% }) %>
+                    </select>
+                  </div>
+                  <!-- <input type="text" class="form-control" id="recipient-location"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-type" class="col-form-label">Type:</label>
+                  <select class="form-select" id="recipient-type" name="recipient-type" aria-label="Default select example">
+                    <option value="books">Book</option>
+                    <option value="document">Document</option>
+                    <option value="cd">CD</option>
+                  </select>
+                  <!-- <input type="text" class="form-control" id="recipient-type"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-category" class="col-form-label">Category:</label>
+                  <div class="form-group">
+                    <select name="recipient-category" id="recipient-category" class="form-control">
+                        <!-- <option value=""></option> -->
+                        <% category.forEach(i => { %>
+                          <option value="<%= i.categoryName %>"><%= i.categoryName %></option>
+                        <% }) %>
+                    </select>
+                  </div>
+                  <!-- <input type="text" class="form-control" id="recipient-category"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-title" class="col-form-label">Title:</label>
+                  <textarea class="form-control" id="recipient-title"></textarea>
+                  <!-- <input type="text" class="form-control" id="recipient2-title"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-author" class="col-form-label">Author:</label>
+                  <div class="form-group">
+                    <select name="recipient-author" id="recipient-author" class="form-control">
+                        <!-- <option value=""></option> -->
+                        <% author.forEach(i => { %>
+                          <option value="<%= i.author %>"><%= i.author %></option>
+                        <% }) %>
+                    </select>
+                  </div>
+                  <!-- <input type="text" class="form-control" id="recipient-author"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-publisher" class="col-form-label">Publisher:</label>
+                  <div class="form-group">
+                    <select name="recipient-publisher" id="recipient-publisher" class="form-control">
+                        <!-- <option value=""></option> -->
+                        <% publisher.forEach(i => { %>
+                          <option value="<%= i.publisher %>"><%= i.publisher %></option>
+                        <% }) %>
+                    </select>
+                  </div>
+                  <!-- <input type="text" class="form-control" id="recipient-publisher"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-sinopsis" class="col-form-label">Sinopsis:</label>
+                  <textarea rows="3" class="form-control" id="recipient-sinopsis"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-pages" class="col-form-label">Pages:</label>
+                  <input type="text" class="form-control" id="recipient-pages">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-language" class="col-form-label">Language:</label>
+                  <select class="form-select" id="recipient-language" name="recipient-language" aria-label="Default select example">
+                    <option value="bahasa">Bahasa</option>
+                    <option value="english">English</option>
+                  </select>
+                  <!-- <input type="text" class="form-control" id="recipient-language"> -->
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-quantity" class="col-form-label">Quantity:</label>
+                  <input type="text" class="form-control" id="recipient-quantity">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-availableQuantity" class="col-form-label">Available Quantity:</label>
+                  <input type="text" class="form-control" id="recipient-availableQuantity">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-entry_date" class="col-form-label">Entry Date:</label>
+                  <input type="date" class="form-control" id="recipient-entry_date" name="recipient-entry_date">
+                  <!-- <input type="text" class="form-control" id="recipient-entry_date" readonly> -->
+                  <!-- <div class="form-check form-check-inline">
+                    <label for="recipient-entry_date" class="col-form-label">Edit: </label>
+                    <input type="date" class="form-control" id="entry_date" name="entry_date">
+                  </div> -->
+                  
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-status" class="col-form-label">Status:</label><br>
+                  <select class="form-select" id="recipient-status" name="recipient-status" aria-label="Default select example">
+                    <option value="available">Available</option>
+                    <option value="notavailable">Notavailable</option>
+                  </select>
+                  <!-- <div class="form-check">
+                    <input class="form-check-input" type="radio" name="recipient-status" id="available" value="available">
+                    <label class="form-check-label" for="available">
+                      Available
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="recipient-status" id="notavailable" value="notavailable">
+                    <label class="form-check-label" for="notavailable">
+                      Not Available
+                    </label>
+                  </div> -->
+
+                  <!-- <input type="radio" id="available" name="status" value="available">
+                  <label for="available">Available</label><br>
+                  <input type="radio" id="notavailable" name="status" value="notavailable">
+                  <label for="notavailable">Notavailable</label><br> -->
+                  <!-- <input type="text" class="form-control" id="recipient4-status"> -->
+                </div>
+                <!-- <div class="mb-3">
+                  <label for="image" class="col-form-label">Image:</label>
+                  <input type="file" class="form-control" id="recipient8-image" name="image" onchange="previewEdit()">
+                </div>
+                <img id="frameEdit" src="" class="img-fluid" /> -->
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="editItem()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================modal edit image======================== -->
+      <div class="modal fade" id="editImage" tabindex="-1" aria-labelledby="editImageLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editImageLabel">Edit Image</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div id="indexImg"></div>
+                <div class="mb-3">
+                  <label for="id_itemImg" class="col-form-label">ID Item:</label>
+                  <input readonly type="text" class="form-control" id="id_itemImg" name="id_itemImg">
+                </div>
+                <div class="mb-3">
+                  <label for="formFileImg" class="col-form-label">Image:</label>
+                  <input type="file" class="form-control" id="formFileImg" onchange="previewEdit()">
+                </div>
+                <img id="frameEdit" src="" class="img-fluid" />
+                
+                
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success" onclick="editImage()">Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <%- include('partials_admin/script'); %>
+      <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- script -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $('#dataTable').DataTable();
+          $("#category").select2({
+            placeholder: "Please Select Category",
+            dropdownParent: $("#drop"),
+          });
+          $("#author").select2({
+            placeholder: "Please Select Author",
+            dropdownParent: $("#drop"),
+          });
+          $("#publisher").select2({
+            placeholder: "Please Select Publisher",
+            dropdownParent: $("#drop"),
+          });
+          $("#location").select2({
+            placeholder: "Please Select Shelf",
+            dropdownParent: $("#drop"),
+          });
+      });
+
+      
+
+      function preview() {
+          frame.src = URL.createObjectURL(event.target.files[0]);
+      }
+      function previewEdit() {
+          frameEdit.src = URL.createObjectURL(event.target.files[0]);
+      }
+
+      function pad (str, max) {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
+      }
+
+      const exampleModal = document.getElementById('editItem')
+      exampleModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const id = button.getAttribute('data-bs-i')
+        const recipient = button.getAttribute('data-bs-id')
+        const recipient1 = button.getAttribute('data-bs-category')
+        const recipient2 = button.getAttribute('data-bs-title')
+        const recipient3 = button.getAttribute('data-bs-quantity')
+        const recipient4 = button.getAttribute('data-bs-availableQuantity')
+        const recipient5 = button.getAttribute('data-bs-author')
+        const recipient6 = button.getAttribute('data-bs-sinopsis')
+        const recipient7 = button.getAttribute('data-bs-pages')
+        const recipient8 = button.getAttribute('data-bs-location')
+        const recipient9 = button.getAttribute('data-bs-type')
+        const recipient10 = button.getAttribute('data-bs-publisher')
+        const recipient11 = button.getAttribute('data-bs-language')
+        const recipient12 = button.getAttribute('data-bs-entryDate')
+        const recipient13 = button.getAttribute('data-bs-status')
+        let entry_date = new Date(recipient12).getDate();
+        let entry_month = new Date(recipient12).getMonth()+1;
+        let entry_year = new Date(recipient12).getFullYear();
+        let tgl = pad(`${entry_date}`,2)
+        let bln = pad(`${entry_month}`,2)
+        let entry = `${entry_year}-${bln}-${tgl}`
+        
+
+        // const recipient3 = randomString(6)
+        
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        const modalTitle = exampleModal.querySelector('.modal-title')
+        const index = exampleModal.querySelector('#index')
+        const modalBodyInput = exampleModal.querySelector('#recipient-id')
+        const modalBodyInput1 = exampleModal.querySelector('#recipient-category')
+        const modalBodyInput2 = exampleModal.querySelector('#recipient-title')
+        const modalBodyInput3 = exampleModal.querySelector('#recipient-quantity')
+        const modalBodyInput4 = exampleModal.querySelector('#recipient-availableQuantity')
+        const modalBodyInput5 = exampleModal.querySelector('#recipient-author')
+        const modalBodyInput6 = exampleModal.querySelector('#recipient-sinopsis')
+        const modalBodyInput7 = exampleModal.querySelector('#recipient-pages')
+        const modalBodyInput8 = exampleModal.querySelector('#recipient-location')
+        const modalBodyInput9 = exampleModal.querySelector('#recipient-type')
+        const modalBodyInput10 = exampleModal.querySelector('#recipient-publisher')
+        const modalBodyInput11 = exampleModal.querySelector('#recipient-language')
+        const modalBodyInput12 = exampleModal.querySelector('#recipient-entry_date')
+        const modalBodyInput13 = exampleModal.querySelector('#recipient-status')
+        // const modalBodyInput8 = exampleModal.querySelector('#recipient8-image')
+        // console.log(recipient8)
+        // document.getElementById('frameEdit').src=recipient8;
+
+        modalTitle.textContent = `Edit Item ${recipient}`
+        index.value = id
+        modalBodyInput.value = recipient
+        modalBodyInput1.value = recipient1
+        modalBodyInput2.value = recipient2
+        modalBodyInput3.value = recipient3
+        modalBodyInput4.value = recipient4
+        modalBodyInput5.value = recipient5
+        modalBodyInput6.value = recipient6
+        modalBodyInput7.value = recipient7
+        modalBodyInput8.value = recipient8
+        modalBodyInput9.value = recipient9
+        modalBodyInput10.value = recipient10
+        modalBodyInput11.value = recipient11
+        modalBodyInput12.value = entry
+        modalBodyInput13.value = recipient13
+        // modalBodyInput8.value = recipient8
+        $("#recipient-location").select2({
+          // placeholder: "Please Select Shelf",
+          dropdownParent: $("#drop-edit"),
+        });
+        $("#recipient-category").select2({
+          // placeholder: "Please Select Shelf",
+          dropdownParent: $("#drop-edit"),
+        });
+        $("#recipient-author").select2({
+          // placeholder: "Please Select Shelf",
+          dropdownParent: $("#drop-edit"),
+        });
+        $("#recipient-publisher").select2({
+          // placeholder: "Please Select Shelf",
+          dropdownParent: $("#drop-edit"),
+        });
+        
+      })
+      
+
+      //=====================Modal image========================
+      const imageModal = document.getElementById('editImage')
+      imageModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const id = button.getAttribute('data-bs-id')
+        const id_item = button.getAttribute('data-bs-id_item')
+        
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        const modalTitle = imageModal.querySelector('.modal-title')
+        const modalBodyInput = imageModal.querySelector('#indexImg')
+        const modalBodyInput1 = imageModal.querySelector('#id_itemImg')
+
+        modalTitle.textContent = `Edit Image ${id_item}`
+        modalBodyInput.value = id
+        modalBodyInput1.value = id_item
+        
+      })
+
+      function deleteItem(id) {
+        $.ajax({
+            url: `http://localhost:8001/api/delete_item/${id}`,
+            type: 'DELETE',
+            success: function (result) {
+              location.reload();
+            }
+        });
+      }
+
+
+      // async function tambahItem() {
+      //   let id_item = $("#id_item").val();
+      //   // let image = $("#image").val();
+      //   let shelf = $("#location").val();
+      //   let type = $("select[name='type']:checked").val();
+      //   let category = $("#category").val();
+      //   let title = $("#title").val();
+      //   let author = $("#author").val();
+      //   let publisher = $("#publisher").val();
+      //   let sinopsis = $("#sinopsis").val();
+      //   let pages = $("#pages").val();
+      //   let language = $("select[name='language']:checked").val();
+      //   let quantity = $("#quantity").val();
+      //   // let availableQuantity = $("#availableQuantity").val();
+      //   let entry_date = $("#entry_date").val();
+      //   let image = formFile.files[0];
+      //   console.log(publisher);
+      //   console.log(location);
+      //   // let itemStatus = $("#items_status").val();
+      //   let itemStatus = $("input[name='status']:checked").val();
+      //   await fetch("http://localhost:8001/api/add_item", {
+      //       method: 'post',
+      //       body: `id_item=${id_item}&image=${image}&location=${shelf}&type=${type}&category=${category}&title=${title}&author=${author}&publisher=${publisher}&sinopsis=${sinopsis}&pages=${pages}&language=${language}&quantity=${quantity}&available_quantity=${quantity}&entry_date=${entry_date}&items_status=${itemStatus}`,
+      //       headers: 
+      //       {
+      //           "Content-Type": "application/x-www-form-urlencoded"
+      //       }
+      //   }).then(async (response) => {
+      //       if (response.status === 400) {
+      //         alert("Id Item Tidak Boleh Kosong!")
+      //       }
+      //       if (response.status != 400) {
+      //         location.reload();
+      //       }
+      //       return response.json()
+      //   }).then((res) => {
+
+      //   }).catch((error) => {
+      //       console.log(error)
+      //   })
+        
+      // }
+
+      
+
+      async function editItem() {
+        let i = $("#index").val();
+        let id_item = $("#recipient-id").val();
+        let category = $("#recipient-category").val();
+        let title = $("#recipient-title").val();
+        let quantity = $("#recipient-quantity").val();
+        let availableQuantity = $("#recipient-availableQuantity").val();
+        let itemStatus = $("#recipient-status").val();
+        let author = $("#recipient-author").val();
+        let sinopsis = $("#recipient-sinopsis").val();
+        let pages = $("#recipient-pages").val();
+        let shelf = $("#recipient-location").val();
+        let type = $("#recipient-type").val();
+        let publisher = $("#recipient-publisher").val();
+        let language = $("#recipient-language").val();
+        let entry_date = $("#recipient-entry_date").val();
+        // let itemStatus = getSatus();
+        console.log(itemStatus)
+
+        $.ajax({
+            url: `http://localhost:8001/api/update_item/${i}`,
+            type: 'PUT',
+            data: ({ id_item: id_item, location: shelf, type: type, category: category, title: title, author: author, publisher: publisher, sinopsis: sinopsis, pages: pages, language: language, quantity: quantity, available_quantity: availableQuantity, entry_date: entry_date, items_status: itemStatus }),
+            success: function (result) {
+              location.reload();
+            }
+        });
+        
+      }
+
+      async function editImage() {
+        let id = $("#indexImg").val();
+        let id_item = $("#id_itemImg").val();
+        let urlGambar = formFileImg.files[0];
+
+        const data = new FormData();
+        
+        data.append("image", urlGambar)
+        data.append("id_item", id_item)
+        // console.log('formData = '+data)
+
+        await fetch(`http://localhost:8001/api/editImage/${id}`, {
+            method: 'put',
+            body: data,
+        }).then(async (response) => {
+            if (response.status === 400) {
+              alert("Id Item Tidak Boleh Kosong!")
+            }
+            if (response.status != 400) {
+              location.reload();
+            }
+            return response.json()
+        }).then((res) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+      }
+
+      
+
+    </script>
+  </body>
+</html>

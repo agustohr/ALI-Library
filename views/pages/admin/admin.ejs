@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials_admin/head'); %>
+    <title>ALI Library - Dashboard</title>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <%- include('partials_admin/sidebar'); %>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <%- include('partials_admin/topbar'); %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <a href="/admin/create_report" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" >
+                            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+                        </a>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Users</div>
+                                            <% let jlhMember = 0 %> 
+                                            <% pegawai.forEach(i => { %>
+                                             <% if (i.role == "member") { %>
+                                              <% jlhMember += 1 %> 
+                                             <% } %>
+                                            <% }) %>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= jlhMember %> </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Items</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= item.length %> </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                All Transaction</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= borrow.length %> </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-table-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Request Booking</div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <% var jlh = 0 %>
+                                                    <% borrow.forEach((i,index) => { %>
+                                                         
+                                                     <% if (i.borrow_status == "request") { %>
+                                                        <% jlh++ %> 
+                                                     <% } %>
+                                                    <% }) %>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= jlh %> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book-bookmark fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Booking
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <% var jlh = 0 %>
+                                                    <% borrow.forEach((i,index) => { %>
+                                                         
+                                                     <% if (i.borrow_status == "booking") { %>
+                                                        <% jlh++ %> 
+                                                     <% } %>
+                                                    <% }) %>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= jlh %> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book-bookmark fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Borrowed
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <% var jlh = 0 %>
+                                                    <% borrow.forEach((i,index) => { %>
+                                                         
+                                                     <% if (i.borrow_status == "borrowed") { %>
+                                                        <% jlh++ %> 
+                                                     <% } %>
+                                                    <% }) %>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= jlh %> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book-open fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Completed
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <% var jlh = 0 %>
+                                                    <% borrow.forEach((i,index) => { %>
+                                                         
+                                                     <% if (i.borrow_status == "completed") { %>
+                                                        <% jlh++ %> 
+                                                     <% } %>
+                                                    <% }) %>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= jlh %> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book-open fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-bottom-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Request Extend</div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <% var jlh = 0 %>
+                                                    <% borrow.forEach((i,index) => { %>
+                                                         
+                                                     <% if (i.extend_status == "request" && i.borrow_status == "borrowed") { %>
+                                                        <% jlh++ %> 
+                                                     <% } %>
+                                                    <% }) %>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= jlh %> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar-plus fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    <!-- Content Row -->
+
+
+                        
+
+                    
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <%- include('partials_admin/footer'); %>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <%- include('partials_admin/logout'); %>
+
+    <%- include('partials_admin/script'); %>
+    
+</body>
+
+</html>

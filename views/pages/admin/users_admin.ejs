@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('partials_admin/head'); %>
+    <title>ALI Library - Users</title>
+  </head>
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+      <%- include('partials_admin/sidebar'); %>
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+          <!-- Main Content -->
+          <div id="content">
+
+            <%- include('partials_admin/topbar'); %>
+
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+
+                  <!-- Page Heading -->
+                  <h1 class="h3 mb-2 text-gray-800">Tabel Users Admin</h1>
+                  <p class="mb-4">Users Admin yang sudah registrasi</p>
+
+                  <!-- DataTales Example -->
+                  <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Data Users</h6>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                            <button type="button" class="btn btn-success btn-lg my-2" data-bs-toggle="modal" data-bs-target="#tambahUser">
+                              <i class="fa-solid fa-plus"></i> Tambah User
+                            </button>
+                              <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                  <tr>
+                                      <th>ID Pegawai</th>
+                                      <th>Nama</th>
+                                      <th>Jabatan</th>
+                                      <th>Phone</th>
+                                      <th>Email</th>
+                                      <th>Status</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                      <th>ID Pegawai</th>
+                                      <th>Nama</th>
+                                      <th>Jabatan</th>
+                                      <th>Phone</th>
+                                      <th>Email</th>
+                                      <th>Status</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </tfoot>
+                              <tbody>
+                                  <% user.forEach((i,index)=> { %>
+                                    <% if (i.role == "admin") { %>
+                                        <tr>
+                                            <td><%= i.id_pegawai%></td>
+                                            <td><%= i.nama%></td>
+                                            <td><%= i.jabatan%></td>
+                                            <td><%= i.no_hp%></td>
+                                            <td><%= i.email%></td>
+                                            <% if (i.status_users == "active") { %>
+                                                <td><span class="badge text-bg-success"><%= i.status_users%></span></td>
+                                            <% } else if(i.status_users == "notactive"){%>
+                                                <td><span class="badge text-bg-danger"><%= i.status_users%></span></td>
+                                                <% } %>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser" data-bs-i="<%= i.id %>" data-bs-id="<%= i.id_pegawai %>" data-bs-nama="<%= i.nama %>" data-bs-jabatan="<%= i.jabatan %>" data-bs-phone="<%= i.no_hp %>" data-bs-email="<%= i.email %>">Edit</button>
+                                                    <button type="button" class="btn btn-danger" onclick="deleteUser(<%=i.id%>)">Delete</button>
+                                                </div>
+                                                
+                                            </td>
+                                            </tr>
+                                    <% } %>
+                                      
+                                  <% }) %>
+                              </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+              <!-- /.container-fluid -->
+
+          </div>
+          <!-- End of Main Content -->
+
+          <%- include('partials_admin/footer'); %>
+
+      </div>
+      <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+  
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+  </a>
+
+  <%- include('partials_admin/logout'); %>
+
+    <!-- ================================modal tambah item======================== -->
+    <div class="modal fade" id="tambahUser" tabindex="-1" aria-labelledby="tambahUserLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tambahUserLabel">Register User Admin</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="id_pegawai" class="col-form-label">ID Pegawai:</label>
+                <input type="text" class="form-control" id="id_pegawai">
+              </div>
+              <div class="mb-3">
+                <label for="nama" class="col-form-label">Nama:</label>
+                <input type="text" class="form-control" id="nama">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="col-form-label">Password:</label>
+                <input type="password" class="form-control" id="password">
+              </div>
+              <div class="mb-3">
+                <label for="jabatan" class="col-form-label">Jabatan:</label>
+                <input type="text" class="form-control" id="jabatan">
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="col-form-label">Phone:</label>
+                <input type="text" class="form-control" id="phone">
+              </div>
+              <div class="mb-3">
+                <label for="email" class="col-form-label">Email:</label>
+                <input type="email" class="form-control" id="email">
+              </div>
+              <div class="mb-3">
+                  <label for="recipient4-status" class="col-form-label">Status:</label><br>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="statusAdd" id="active" value="active">
+                      <label class="form-check-label" for="active">
+                        Active
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="statusAdd" id="notactive" value="notactive">
+                      <label class="form-check-label" for="notactive">
+                        Not Active
+                      </label>
+                    </div>
+                </div>
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" onclick="tambahUser()">Tambah</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================modal edit item======================== -->
+    <div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUserLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUserLabel">Edit User Admin</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="index"></div>
+            <div class="modal-body">
+              <form id="detailBorrow">
+                <div class="mb-3">
+                  <label for="id_pegawaiModal" class="col-form-label">ID Pegawai:</label>
+                  <input type="text" class="form-control" id="id_pegawaiModal">
+                </div>
+                <div class="mb-3">
+                  <label for="namaModal" class="col-form-label">Nama:</label>
+                  <input type="text" class="form-control" id="namaModal">
+                </div>
+                <div class="mb-3">
+                  <label for="jabatanModal" class="col-form-label">Jabatan:</label>
+                  <input type="text" class="form-control" id="jabatanModal">
+                </div>
+                <div class="mb-3">
+                  <label for="phoneModal" class="col-form-label">Phone:</label>
+                  <input type="text" class="form-control" id="phoneModal">
+                </div>
+                <div class="mb-3">
+                  <label for="emailModal" class="col-form-label">Email:</label>
+                  <input type="text" class="form-control" id="emailModal">
+                </div>
+                <div class="mb-3">
+                    <label for="statusEdit" class="col-form-label">Status:</label><br>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="statusEdit" id="activeModal" value="active">
+                        <label class="form-check-label" for="activeModal">
+                          Active
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="statusEdit" id="notactiveModal" value="notactive">
+                        <label class="form-check-label" for="notactiveModal">
+                          Not Active
+                        </label>
+                      </div>
+                  </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="editUser()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <%- include('partials_admin/script'); %>
+    <!-- script -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $('#dataTable').DataTable();
+          // read();
+      });
+
+      async function read(){
+        $.ajax({
+          url: `/admin/tabelItem`,
+          type: 'GET',
+          success: function (result){
+              // console.log($("#datatablesSimple").html(result).DataTable());
+              $("#datatablesSimple").html(result).DataTable();
+              // $('#datatablesSimple').DataTable(result);
+          }
+        })
+      }
+
+
+      /* Fungsi */
+    //   $('#editUser').on('show.bs.modal', function (event) {
+    //     const button = $(event.relatedTarget) // Button that triggered the modal
+    //     //const recipient = button.data('whatever') // Extract info from data-* attributes
+    //     const id = button.data('bs-i')
+    //     const recipient = button.data('bs-id')
+    //     const recipient1 = button.data('bs-category')
+    //     const recipient2 = button.data('bs-title')
+    //     const recipient3 = button.data('bs-quantity')
+    //     const recipient4 = button.data('bs-availableQuantity')
+    //     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    //     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    //     const modal = $(this)
+    //     modal.find('.modal-title').text('Edit ID Item ' + recipient)
+    //     modal.find('#index').val(id)
+    //     modal.find('#recipient-id').val(recipient)
+    //     modal.find('#recipient1-category').val(recipient1)
+    //     modal.find('#recipient2-title').val(recipient2)
+    //     modal.find('#recipient3-quantity').val(recipient3)
+    //     modal.find('#recipient4-availableQuantity').val(recipient4)
+    //   })
+
+      const exampleModal = document.getElementById('editUser')
+      exampleModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const id = button.getAttribute('data-bs-i')
+        const recipient = button.getAttribute('data-bs-id')
+        const recipient1 = button.getAttribute('data-bs-nama')
+        const recipient2 = button.getAttribute('data-bs-jabatan')
+        const recipient3 = button.getAttribute('data-bs-phone')
+        const recipient4 = button.getAttribute('data-bs-email')
+        // const recipient3 = randomString(6)
+        
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        const modalTitle = exampleModal.querySelector('.modal-title')
+        const index = exampleModal.querySelector('#index')
+        const modalBodyInput = exampleModal.querySelector('#id_pegawaiModal')
+        const modalBodyInput1 = exampleModal.querySelector('#namaModal')
+        const modalBodyInput2 = exampleModal.querySelector('#jabatanModal')
+        const modalBodyInput3 = exampleModal.querySelector('#phoneModal')
+        const modalBodyInput4 = exampleModal.querySelector('#emailModal')
+
+        modalTitle.textContent = `Edit ID Item ${recipient}`
+        index.value = id
+        modalBodyInput.value = recipient
+        modalBodyInput1.value = recipient1
+        modalBodyInput2.value = recipient2
+        modalBodyInput3.value = recipient3
+        modalBodyInput4.value = recipient4
+        
+      })
+
+      function deleteUser(id) {
+        $.ajax({
+            url: `http://localhost:8001/api/delete_users/${id}`,
+            type: 'DELETE',
+            success: function (result) {
+              location.reload();
+            }
+        });
+      }
+
+
+      async function tambahUser() {
+        let id_pegawai = $("#id_pegawai").val();
+        let nama = $("#nama").val();
+        let jabatan = $("#jabatan").val();
+        let phone = $("#phone").val();
+        let email = $("#email").val();
+        let userStatus = $("input[name='statusAdd']:checked").val();
+        let role = "admin"
+        let password = $("#password").val();
+        await fetch("http://localhost:8001/api/add_users", {
+            method: 'post',
+            body: `id_pegawai=${id_pegawai}&nama=${nama}&password=${password}&jabatan=${jabatan}&no_hp=${phone}&email=${email}&role=${role}&status_users=${userStatus}`,
+            headers: 
+            {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(async (response) => {
+            if (response.status === 400) {
+              alert("Id Pegawai Tidak Boleh Kosong!")
+            }
+            if (response.status != 400) {
+                // alert('Berhasil Tambah User Admin')
+              location.reload();
+            }
+            return response.json()
+        }).then((res) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+      }
+
+
+      async function editUser() {
+        let id = $("#index").val();
+        let id_pegawai = $("#id_pegawaiModal").val();
+        let nama = $("#namaModal").val();
+        let jabatan = $("#jabatanModal").val();
+        let phone = $("#phoneModal").val();
+        let email = $("#emailModal").val();
+        let userStatus = $("input[name='statusEdit']:checked").val();
+        await fetch(`http://localhost:8001/api/update_profile/${id}`, {
+            method: 'put',
+            body: `id_pegawai=${id_pegawai}&nama=${nama}&jabatan=${jabatan}&no_hp=${phone}&email=${email}&status_users=${userStatus}`,
+            headers: 
+            {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(async (response) => {
+            if (response.status === 400) {
+              alert("Id Item Tidak Boleh Kosong!")
+            }
+            if (response.status != 400) {
+              location.reload();
+            }
+            return response.json()
+        }).then((res) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+      }
+
+      
+
+      
+
+    </script>
+  </body>
+</html>

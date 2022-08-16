@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zxx">
+    
+
+<head>        
+        <!-- Title -->
+        <title>..:: ALI Library - History ::..</title>
+        <%- include('partials_home/head'); %>
+    </head>
+
+    <body>
+
+        <%- include('partials_home/header'); %>
+
+        <!-- Start: Page Banner -->
+        <section class="page-banner history-banner">
+            <div class="container">
+                <div class="banner-header">
+                    <h2>History & Extend</h2>
+                    <span class="underline center"></span>
+                    <p class="lead">Proin ac eros pellentesque dolor pharetra tempo.</p>
+                </div>
+                <div class="breadcrumb">
+                    <ul>
+                        <li><a href="/home1">Home</a></li>
+                        <li>Books & Media</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- End: Page Banner -->
+
+        <!-- Start: Products Section -->
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area">
+                <main id="main" class="site-main">
+                    <div class="booksmedia-detail-main">
+                        <div class="container">
+                            <div class="row" style="margin-top:3em; text-align: center;">
+                                <h3>Check Your Loan History</h3>
+                            </div>
+                            <div class="booksmedia-detail-box">
+                                <div class="table-tabs" id="responsiveTabs">
+                                    <div class="tab-content">
+                                        <div id="sectionA" class="tab-pane fade in active">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Book</th>
+                                                        <th>Code</th>
+                                                        <th>Request Date</th>
+                                                        <!-- <th>Booking Date</th> -->
+                                                        <th>Loan Date</th>
+                                                        <!-- <th>Cancel Date</th> -->
+                                                        <th>Due Date</th>
+                                                        <th>Return Date</th>
+                                                        <th>Loan Status</th>
+                                                        <th>Return Status</th>
+                                                        <th>Extend Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%borrows.sort(function compare(a, b) {%>
+                                                        <% var dateA = new Date(a.createdAt); %>
+                                                        <% var dateB = new Date(b.createdAt); %>
+                                                    
+                                                        <% return dateB - dateA; %>
+                                                    <%});%>
+                                                    <% borrows.forEach(i => { %>
+                                                        <% if (i.user_id == users.id_pegawai) { %>
+                                                        <tr>
+                                                            <td><%= i.item_title %></td>
+                                                            <td><%= i.code %></td>
+                                                            <td><%= i.request_date %></td>
+                                                            <!-- <td><%= i.booking_date %></td> -->
+                                                            <td><%= i.borrow_date %></td>
+                                                            <!-- <td><%= i.cancel_date %></td> -->
+
+                                                            <% if (i.extend_due_date != null) { %>
+                                                                <td><%= i.extend_due_date%></td>
+                                                            <% }else{ %>
+                                                                <td><%= i.due_date %></td>
+                                                            <%} %>
+
+                                                            <td><%= i.return_date %></td>
+                                                            <% if (i.borrow_status == 'booking') { %>
+                                                                <td><strong class="warning"><%= i.borrow_status %></strong></td>
+                                                            <% } else if (i.borrow_status == 'borrowed'){%>
+                                                                <td><strong class="primary"><%= i.borrow_status %></strong></td>
+                                                            <% } else if (i.borrow_status == 'completed'){%>
+                                                                <td><strong class="success"><%= i.borrow_status %></strong></td>
+                                                            <% }else if (i.borrow_status == 'request'){%>
+                                                                <td><strong class="info"><%= i.borrow_status %></strong></td>
+                                                            <% } else { %> 
+                                                                <td><strong class="danger"><%= i.borrow_status %></strong></td>
+                                                            <% } %>  
+
+                                                            <% if (i.return_status == 'waiting') { %>
+                                                                <td><strong class="warning"><%= i.return_status %></strong></td>
+                                                            <% } else if (i.return_status == 'ontime'){%>
+                                                                <td><strong class="success"><%= i.return_status %></strong></td>
+                                                            <% } else if (i.return_status == 'overdue'){%>
+                                                                <td><strong class="danger"><%= i.return_status %></strong></td>
+                                                            <% }else{ %>
+                                                                <td><%= null %></td>
+                                                            <% } %> 
+
+                                                            <% if (i.extend_status == 'request') { %>
+                                                                <td><strong class="info"><%= i.extend_status %></strong></td>
+                                                            <% } else if (i.extend_status == 'extended'){%>
+                                                                <td><strong class="success"><%= i.extend_status %></strong></td>
+                                                            <% } else if (i.extend_status == 'rejected'){%>
+                                                                <td><strong class="danger"><%= i.extend_status %></strong></td>
+                                                            <% }else{ %>
+                                                                <td><%= null %></td>
+                                                            <% } %> 
+
+                                                            <% if (i.borrow_status == "borrowed") { %>
+                                                                <% if (i.extend_status == null) { %>
+                                                                    <% items.forEach(j => { %>
+                                                                        <% if (j.id_item == i.item_id) { %>
+                                                                         <td><button class="small" onclick='extend("<%= i.due_date %>", <%= i.id %>, "<%= i.borrow_date %>", "<%= j.id_item %>", "<%= j.title %>", "<%= users.id_pegawai %>", "<%= users.nama %>" )'>Extend</button></td>
+                                                                        <% } %>
+                                                                    <% }) %>
+                                                                    <!-- <td><button class="small">Extend</button></td>  -->
+                                                                <% }else{ %>
+                                                                    <td><%= null %></td>
+                                                                <% } %>
+                                                                
+                                                            <% }else{ %>
+                                                                <td><%= null %></td>
+                                                            <% } %> 
+
+                                                                                                                              
+                                                        </tr>
+                                                        <% } %> 
+                                                    <% }) %>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- End: Products Section -->
+        
+
+        <%- include('partials_home/footer'); %>
+
+        <script type="text/javascript">
+            async function extend(dueDate, id, borrowDate, id_item, title, id_pegawai, nama){
+                // let extendDate = new Date(tgl);
+                // extendDate.setDate(extendDate.getDate()+14);
+                // console.log(extendDate);
+                // console.log(tgl);
+                let dateNow = new Date();
+                let extend_status = "request";
+
+                $.ajax({
+                    url: `http://localhost:8001/api/update_borrow/${id}`,
+                    type: 'PUT',
+                    data: ({ request_extend_date: dateNow, extend_status: extend_status }),
+                    success: function (result) {
+                        location.reload();
+                    }
+                });
+
+                $.ajax({
+                    url: `http://localhost:8001/api/add_alert`,
+                    type: 'POST',
+                    data: ({ receiverName: "Admin", senderId: id_pegawai, senderName: nama, id_item: id_item, title: title, text: "Request Extend" }),
+                    success: function (result) {
+                    
+                    location.reload();
+                    }
+                });
+
+                // socket.emit("newUser", id_pegawai);
+                socket.emit("reqExtend", {
+                    senderId: id_pegawai,
+                    name: nama,
+                    id_item: id_item,
+                    title: title,
+                    borrowDate: `${new Date(borrowDate).getDate()}/${new Date(borrowDate).getMonth()+1}/${new Date(borrowDate).getFullYear()}` ,
+                    dueDate: `${new Date(dueDate).getDate()}/${new Date(dueDate).getMonth()+1}/${new Date(dueDate).getFullYear()}`,
+                    text: "Request Extend",
+                });
+            }
+        </script>
+
+    </body>
+
+
+</html>

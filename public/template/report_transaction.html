@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF</title>
+    <style>
+        table, th, td{
+            font-size: 8pt;
+            border: 1px solid;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        h2{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="http://localhost:8001/api/public/img/logoApril.png" alt="" width="120">
+    <h2>Transactions Report ALI Library</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Borrow</th>
+                <th>ID Pegawai</th>
+                <th>Nama</th>
+                <th>ID Item</th>
+                <th>Title</th>
+                <th>Request Booking Date</th>
+                <th>Approve Admin</th>
+                <th>Approve Date</th>
+                <th>Borrow Admin</th>
+                <th>Borrow Date</th>
+                <th>Due Date</th>
+                <th>Return Admin</th>
+                <th>Return Date</th>
+                <th>Cancel Admin</th>
+                <th>Cancel Date</th>
+                <th>Borrow Status</th>
+                <th>Return Status</th>
+                <th>Extend Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each borrows}}
+            <tr>
+                <td>{{this.id_borrow}}</td>
+                <td>{{this.user_id}}</td>
+                <td>{{this.user_name}}</td>
+                <td>{{this.item_id}}</td>
+                <td>{{this.item_title}}</td>
+                <td>{{this.request_date}}</td>
+                <td>{{this.booking_admin_id}}</td>
+                <td>{{this.booking_date}}</td>
+                <td>{{this.borrow_admin_id}}</td>
+                <td>{{this.borrow_date}}</td>
+                <td>{{this.due_date}}</td>
+                <td>{{this.return_admin_id}}</td>
+                <td>{{this.return_date}}</td>
+                <td>{{this.cancel_admin_id}}</td>
+                <td>{{this.cancel_date}}</td>
+                <td>{{this.borrow_status}}</td>
+                <td>{{this.return_status}}</td>
+                <td>{{this.extend_status}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <p>Total Transactions : {{total}}</p>
+    <p>Created at : {{dateNow}}</p>
+</body>
+</html>
